@@ -166,6 +166,7 @@ const TaskItem = ({
       onMouseDown={handleTouchStart}
       onMouseUp={handleTouchEnd}
       onMouseMove={handleCancelPress}
+      onContextMenu={(e) => e.preventDefault()}
       onClick={(e) => {
         if (ignoreNextClick.current) {
           ignoreNextClick.current = false;

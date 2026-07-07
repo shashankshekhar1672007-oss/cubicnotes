@@ -238,6 +238,7 @@ const NoteCard = ({
       onMouseDown={onToggleSelect ? handleTouchStart : undefined}
       onMouseUp={onToggleSelect ? handleTouchEnd : undefined}
       onMouseMove={onToggleSelect ? handleCancelPress : undefined}
+      onContextMenu={(e) => e.preventDefault()}
       onClick={(e) => {
         if (onToggleSelect) {
           if (ignoreNextClick.current) {

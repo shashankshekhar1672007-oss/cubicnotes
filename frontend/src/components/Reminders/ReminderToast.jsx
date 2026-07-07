@@ -47,13 +47,27 @@ const playChime = () => {
 
 const showNotification = (title, body) => {
   if (typeof window !== "undefined" && "Notification" in window && Notification.permission === "granted") {
-    const n = new Notification(title, {
-      body: body || "CubicNotes Reminder Alert",
-      icon: "/favicon.svg",
-    });
-    n.onclick = () => {
-      window.focus();
-    };
+    try {
+      const n = new Notification(title, {
+        body: body || "CubicNotes Reminder Alert",
+        icon: "/favicon.svg",
+      });
+      n.onclick = () => {
+        window.focus();
+      };
+    } catch (e) {
+      console.warn("Window-level Notification constructor failed (expected on mobile):", e);
+      // Fallback: Use service worker registration to show notification (supported on mobile Android/Chrome)
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.ready.then((reg) => {
+          reg.showNotification(title, {
+            body: body || "CubicNotes Reminder Alert",
+            icon: "/favicon.svg",
+            badge: "/favicon.svg",
+          }).catch((err) => console.error("ServiceWorker notification failed:", err));
+        }).catch((err) => console.error("ServiceWorker not ready:", err));
+      }
+    }
   }
 };
 

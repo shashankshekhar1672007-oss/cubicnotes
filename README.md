@@ -1,7 +1,7 @@
 # 📔 CubicNotes
 
 <p align="center">
-  <img src="frontend/public/favicon.png" alt="CubicNotes Logo" width="80" height="80" />
+  <img src="frontend/public/favicon.svg" alt="CubicNotes Logo" width="80" height="80" />
 </p>
 
 <h3 align="center">CubicNotes</h3>

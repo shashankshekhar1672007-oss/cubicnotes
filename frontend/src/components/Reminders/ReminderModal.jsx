@@ -29,10 +29,15 @@ const ReminderModal = ({ onClose, onSave, onDelete, linkedNote = null, initial =
 
   const handleSave = () => {
     if (!title.trim() || !triggerTime) return;
+    
+    // Parse the datetime-local string (which is in local time) and convert to UTC ISO string
+    const localDate = new Date(triggerTime);
+    const triggerTimeISO = isNaN(localDate.getTime()) ? triggerTime : localDate.toISOString();
+    
     onSave({
       title: title.trim(),
       description,
-      triggerTime,
+      triggerTime: triggerTimeISO,
       repeat,
       linkedNote: linkedNote?._id || initial?.linkedNote || null,
       syncToGoogleCalendar,

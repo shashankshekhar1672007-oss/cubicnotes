@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useGhostGuard } from "../../hooks/useGhostGuard";
 import { useContext, useState, useEffect, useRef, useMemo } from "react";
@@ -104,12 +104,12 @@ const Sidebar = ({ mobileExpanded, setMobileExpanded }) => {
         onClick={() => setMobileExpanded((prev) => !prev)}
       >
         {/* ── Logo ──────────────────────────────── */}
-        <div className="sidebar-logo">
+        <Link to="/" className="sidebar-logo">
           <span className="sidebar-logo-mark">
             <i className="fa-solid fa-note-sticky"></i>
           </span>
           <span className="sidebar-label sidebar-logo-name">CubicNotes</span>
-        </div>
+        </Link>
 
         {/* ── Nav links ─────────────────────────── */}
         <nav className="sidebar-nav">

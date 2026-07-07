@@ -368,7 +368,7 @@ a {
   transform: translateX(-50%);
   z-index: 999;
   width: calc(100% - 2rem);
-  max-width: 600px;
+  max-width: 780px;
   animation: batch-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

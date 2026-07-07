@@ -938,6 +938,7 @@
     left: 0;
     width: 100vw !important;
     height: 100vh !important;
+    height: 100dvh !important;
     border: none !important;
     border-radius: 0 !important;
     z-index: 1000;

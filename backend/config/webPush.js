@@ -1,8 +1,13 @@
 const webpush = require("web-push");
 
+const cleanEnvKey = (key) => {
+  if (!key) return "";
+  return key.trim().replace(/^["']|["']$/g, "");
+};
+
 let vapidKeys = {
-  publicKey: process.env.VAPID_PUBLIC_KEY,
-  privateKey: process.env.VAPID_PRIVATE_KEY,
+  publicKey: cleanEnvKey(process.env.VAPID_PUBLIC_KEY),
+  privateKey: cleanEnvKey(process.env.VAPID_PRIVATE_KEY),
 };
 
 if (!vapidKeys.publicKey || !vapidKeys.privateKey) {

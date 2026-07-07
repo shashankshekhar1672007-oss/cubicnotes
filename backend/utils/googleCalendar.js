@@ -2,8 +2,9 @@ const { google } = require("googleapis");
 const { encrypt, decrypt } = require("./cryptoHelper");
 
 const getOAuth2Client = () => {
-  const callbackUrl = process.env.BACKEND_URL
-    ? `${process.env.BACKEND_URL}/api/auth/google/calendar/callback`
+  const hostUrl = process.env.BACKEND_URL || process.env.RENDER_EXTERNAL_URL;
+  const callbackUrl = hostUrl
+    ? `${hostUrl}/api/auth/google/calendar/callback`
     : `http://localhost:${process.env.PORT || 4001}/api/auth/google/calendar/callback`;
 
   return new google.auth.OAuth2(

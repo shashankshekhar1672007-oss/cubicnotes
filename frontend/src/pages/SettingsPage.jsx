@@ -600,6 +600,7 @@ const SettingsPage = () => {
                 alt="avatar"
                 className="sp-hero-avatar"
                 style={{ objectFit: "cover" }}
+                referrerPolicy="no-referrer"
               />
             ) : (
               <div className="sp-hero-avatar" style={{ background: "var(--accent-teal)" }}>
@@ -641,7 +642,7 @@ const SettingsPage = () => {
                   className="sp-avatar-google-revert"
                   onClick={() => handleSelectPreset("google")}
                 >
-                  <img src={user.avatar} alt="Google" className="sp-avatar-google-thumb" />
+                  <img src={user.avatar} alt="Google" className="sp-avatar-google-thumb" referrerPolicy="no-referrer" />
                   Use Google photo
                   {avatarPreset === "google" && <i className="fa-solid fa-check" style={{ marginLeft: "auto", color: "var(--accent-teal)" }}></i>}
                 </button>

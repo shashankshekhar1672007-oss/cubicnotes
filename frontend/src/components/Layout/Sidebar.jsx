@@ -171,7 +171,7 @@ const Sidebar = ({ mobileExpanded, setMobileExpanded }) => {
             <>
               <NavLink to="/settings" className="sidebar-profile" title={user?.name || "Account"}>
                 {sidebarAvatarSrc ? (
-                  <img src={sidebarAvatarSrc} alt={user?.name} className="sidebar-avatar" style={{ objectFit: "cover" }} />
+                  <img src={sidebarAvatarSrc} alt={user?.name} className="sidebar-avatar" style={{ objectFit: "cover" }} referrerPolicy="no-referrer" />
                 ) : (
                   <div className="sidebar-avatar" style={{ backgroundColor: "var(--accent-teal)" }}>
                     {initials || "?"}

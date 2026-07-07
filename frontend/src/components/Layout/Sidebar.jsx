@@ -97,109 +97,111 @@ const Sidebar = ({ mobileExpanded, setMobileExpanded }) => {
   );
 
   return (
-    <aside
-      ref={sidebarRef}
-      className={`sidebar${mobileExpanded ? " mobile-expanded" : ""}`}
-      onClick={() => setMobileExpanded((prev) => !prev)}
-    >
-      {/* ── Logo ──────────────────────────────── */}
-      <div className="sidebar-logo">
-        <span className="sidebar-logo-mark">
-          <i className="fa-solid fa-note-sticky"></i>
-        </span>
-        <span className="sidebar-label sidebar-logo-name">CubicNotes</span>
-      </div>
+    <>
+      <aside
+        ref={sidebarRef}
+        className={`sidebar${mobileExpanded ? " mobile-expanded" : ""}`}
+        onClick={() => setMobileExpanded((prev) => !prev)}
+      >
+        {/* ── Logo ──────────────────────────────── */}
+        <div className="sidebar-logo">
+          <span className="sidebar-logo-mark">
+            <i className="fa-solid fa-note-sticky"></i>
+          </span>
+          <span className="sidebar-label sidebar-logo-name">CubicNotes</span>
+        </div>
 
-      {/* ── Nav links ─────────────────────────── */}
-      <nav className="sidebar-nav">
-        {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === "/"}
-            className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}
-            title={item.label}
-          >
-            <i className={item.icon}></i>
-            <span className="sidebar-label">{item.label}</span>
-          </NavLink>
-        ))}
-      </nav>
-
-      {/* ── Footer: profile + theme toggle + logout (or Sign In for ghost) ───────── */}
-      <div className="sidebar-footer">
-        {isGhost ? (
-          /* Ghost user footer — Sign In prompt */
-          <>
-            <div
-              className="sidebar-profile"
-              onClick={(e) => { e.stopPropagation(); guardAction(() => {}); }}
-              title="Sign in to CubicNotes"
-              style={{ cursor: "pointer" }}
+        {/* ── Nav links ─────────────────────────── */}
+        <nav className="sidebar-nav">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === "/"}
+              className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}
+              title={item.label}
             >
-              <div className="sidebar-avatar">
-                <i className="fa-solid fa-user" style={{ fontSize: "0.7rem" }}></i>
-              </div>
-              <div className="sidebar-profile-info sidebar-label">
-                <div className="sidebar-profile-name">Guest</div>
-                <div className="sidebar-profile-email">Browsing as guest</div>
-              </div>
-            </div>
-
-            <button
-              className="theme-toggle-btn"
-              onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
-              title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            >
-              <i className={theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
-              <span className="sidebar-label">{theme === "light" ? "Light mode" : "Dark mode"}</span>
-            </button>
-
-            <div
-              className="logout-btn"
-              onClick={(e) => { e.stopPropagation(); guardAction(() => {}); }}
-              title="Sign in"
-              style={{ color: "var(--accent-teal)" }}
-            >
-              <i className="fa-solid fa-arrow-right-to-bracket"></i>
-              <span className="sidebar-label">Sign in</span>
-            </div>
-          </>
-        ) : (
-          /* Authenticated user footer */
-          <>
-            <NavLink to="/settings" className="sidebar-profile" title={user?.name || "Account"}>
-              {sidebarAvatarSrc ? (
-                <img src={sidebarAvatarSrc} alt={user?.name} className="sidebar-avatar" style={{ objectFit: "cover" }} />
-              ) : (
-                <div className="sidebar-avatar" style={{ backgroundColor: "var(--accent-teal)" }}>
-                  {initials || "?"}
-                </div>
-              )}
-              <div className="sidebar-profile-info sidebar-label">
-                <div className="sidebar-profile-name">{user?.name || "Guest"}</div>
-                <div className="sidebar-profile-email">{user?.email || ""}</div>
-              </div>
+              <i className={item.icon}></i>
+              <span className="sidebar-label">{item.label}</span>
             </NavLink>
+          ))}
+        </nav>
 
-            <button
-              className="theme-toggle-btn"
-              onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
-              title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            >
-              <i className={theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
-              <span className="sidebar-label">{theme === "light" ? "Light mode" : "Dark mode"}</span>
-            </button>
+        {/* ── Footer: profile + theme toggle + logout (or Sign In for ghost) ───────── */}
+        <div className="sidebar-footer">
+          {isGhost ? (
+            /* Ghost user footer — Sign In prompt */
+            <>
+              <div
+                className="sidebar-profile"
+                onClick={(e) => { e.stopPropagation(); guardAction(() => {}); }}
+                title="Sign in to CubicNotes"
+                style={{ cursor: "pointer" }}
+              >
+                <div className="sidebar-avatar">
+                  <i className="fa-solid fa-user" style={{ fontSize: "0.7rem" }}></i>
+                </div>
+                <div className="sidebar-profile-info sidebar-label">
+                  <div className="sidebar-profile-name">Guest</div>
+                  <div className="sidebar-profile-email">Browsing as guest</div>
+                </div>
+              </div>
 
-            <div className="logout-btn" onClick={handleLogoutClick} title="Log out">
-              <i className="fa-solid fa-arrow-right-from-bracket"></i>
-              <span className="sidebar-label">Log out</span>
-            </div>
-          </>
-        )}
-      </div>
+              <button
+                className="theme-toggle-btn"
+                onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
+                title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+              >
+                <i className={theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
+                <span className="sidebar-label">{theme === "light" ? "Light mode" : "Dark mode"}</span>
+              </button>
+
+              <div
+                className="logout-btn"
+                onClick={(e) => { e.stopPropagation(); guardAction(() => {}); }}
+                title="Sign in"
+                style={{ color: "var(--accent-teal)" }}
+              >
+                <i className="fa-solid fa-arrow-right-to-bracket"></i>
+                <span className="sidebar-label">Sign in</span>
+              </div>
+            </>
+          ) : (
+            /* Authenticated user footer */
+            <>
+              <NavLink to="/settings" className="sidebar-profile" title={user?.name || "Account"}>
+                {sidebarAvatarSrc ? (
+                  <img src={sidebarAvatarSrc} alt={user?.name} className="sidebar-avatar" style={{ objectFit: "cover" }} />
+                ) : (
+                  <div className="sidebar-avatar" style={{ backgroundColor: "var(--accent-teal)" }}>
+                    {initials || "?"}
+                  </div>
+                )}
+                <div className="sidebar-profile-info sidebar-label">
+                  <div className="sidebar-profile-name">{user?.name || "Guest"}</div>
+                  <div className="sidebar-profile-email">{user?.email || ""}</div>
+                </div>
+              </NavLink>
+
+              <button
+                className="theme-toggle-btn"
+                onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
+                title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+              >
+                <i className={theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon"}></i>
+                <span className="sidebar-label">{theme === "light" ? "Light mode" : "Dark mode"}</span>
+              </button>
+
+              <div className="logout-btn" onClick={handleLogoutClick} title="Log out">
+                <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                <span className="sidebar-label">Log out</span>
+              </div>
+            </>
+          )}
+        </div>
+      </aside>
       <ConfirmationModal {...confirmConfig} />
-    </aside>
+    </>
   );
 };
 

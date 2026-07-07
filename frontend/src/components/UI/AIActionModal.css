@@ -1,0 +1,87 @@
+/* AI Action Modal Styles */
+.ai-action-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ai-action-modal {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  width: 360px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ai-action-modal h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.ai-action-input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  resize: vertical;
+}
+
+.ai-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.ai-action-run-btn {
+  background: var(--accent-teal);
+  color: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.ai-action-cancel-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.ai-action-result {
+  background: var(--bg-muted);
+  padding: 0.8rem;
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.ai-action-result pre {
+  margin: 0;
+  max-height: 200px;
+  overflow: auto;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+.ai-action-copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--accent-teal);
+  color: var(--bg-surface);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}

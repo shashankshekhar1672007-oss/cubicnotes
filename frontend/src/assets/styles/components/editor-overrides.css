@@ -1,0 +1,455 @@
+/* ═══════════════════════════════════════════════════════
+   RICH TEXT EDITOR TOOLBAR & OVERRIDES
+   ═══════════════════════════════════════════════════════ */
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.editor-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.editor-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.75rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.editor-mode-btn:hover {
+  color: var(--text-primary);
+}
+
+.editor-mode-btn.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.note-preview-surface {
+  overflow-y: auto;
+  cursor: default;
+}
+
+.btn-arrow { font-size: 1rem; line-height: 1; }
+
+/* ── ProEditor (Tiptap overrides) ─────────────────────── */
+.ProseMirror {
+  outline: none;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--text-muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  border: 1px solid var(--border-hover);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 6px 10px;
+  position: relative;
+  vertical-align: top;
+}
+
+.ProseMirror th {
+  background: var(--bg-raised);
+  font-weight: 600;
+  text-align: left;
+}
+
+.ProseMirror p {
+  margin: 0 0 0.5rem;
+}
+
+/* ── Notion-style Slash Command Menu ──────────────────── */
+.slash-command-menu {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card), 0 8px 30px rgba(0, 0, 0, 0.15);
+  width: 260px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  scrollbar-width: thin;
+}
+
+.slash-command-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.slash-command-item:hover,
+.slash-command-item.active {
+  background: var(--bg-muted);
+}
+
+.slash-cmd-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+
+.slash-command-item.active .slash-cmd-icon {
+  background: var(--accent-teal);
+  color: var(--bg-surface);
+  border-color: var(--accent-teal);
+}
+
+.slash-cmd-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.slash-cmd-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.slash-cmd-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ── Image Insertion Popover ─────────────────────────── */
+.image-popover {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-popover-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+.image-popover-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.image-popover-field label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.image-popover-field input {
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.image-popover-field input:focus {
+  border-color: var(--accent-teal);
+}
+
+.image-popover-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.image-popover-actions button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: none;
+}
+
+.image-popover-actions .btn-cancel {
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+}
+
+.image-popover-actions .btn-cancel:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.image-popover-actions .btn-insert {
+  background: var(--accent-teal);
+  color: #ffffff;
+}
+
+.image-popover-actions .btn-insert:hover:not(:disabled) {
+  background: #0b8a70;
+}
+
+.image-popover-actions .btn-insert:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Editor Image Styles & Resize Overrides ──────────────── */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  margin: 0 !important;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+/* Spacing and layout for the image wrapper */
+.ProseMirror div:has(> div > img),
+.ProseMirror figure:has(> div > img),
+#print-media-container div:has(> div > img),
+#print-media-container figure:has(> div > img) {
+  margin: 1.5rem 0 !important;
+}
+
+/* Align flex image wrappers to the center by default */
+.ProseMirror div[style*="display: flex"],
+.ProseMirror figure[style*="display: flex"],
+#print-media-container div[style*="display: flex"],
+#print-media-container figure[style*="display: flex"] {
+  justify-content: center !important;
+}
+
+/* Selected state outline around the image container */
+.ProseMirror .ProseMirror-selectednode > div,
+.ProseMirror figure.ProseMirror-selectednode > div,
+.ProseMirror div:has(> [data-resize-image-ui="resize-handle"]) {
+  border: 1.5px solid #0078d4 !important; /* Premium MS Docs/Google Docs blue */
+  outline: none !important;
+  box-shadow: 0 0 0 1px #0078d4 !important;
+  border-radius: 6px !important;
+}
+
+/* Microsoft Word / Google Docs style square resize handles */
+.ProseMirror [data-resize-image-ui="resize-handle"] {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #0078d4 !important;
+  border-radius: 0% !important; /* Make it a square! */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  z-index: 100 !important;
+  box-sizing: border-box !important;
+}
+
+/* Hover state on the square handles */
+.ProseMirror [data-resize-image-ui="resize-handle"]:hover {
+  background-color: #0078d4 !important;
+  border-color: #ffffff !important;
+}
+
+/* Floating alignment controller toolbar below the image */
+.ProseMirror [data-resize-image-ui="position-controller"] {
+  top: 100% !important;
+  left: 50% !important;
+  transform: translate(-50%, 10px) !important; /* Positioned 10px below the image */
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  padding: 4px 8px !important;
+  height: 36px !important;
+  width: auto !important;
+  min-width: 100px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  gap: 8px !important;
+  z-index: 150 !important;
+}
+
+/* Style the SVGs/images inside the alignment toolbar */
+.ProseMirror [data-resize-image-ui="position-controller"] img {
+  width: 24px !important;
+  height: 24px !important;
+  padding: 4px !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+}
+
+.ProseMirror [data-resize-image-ui="position-controller"] img:hover {
+  background-color: var(--bg-hover) !important;
+  opacity: 0.8 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRINT MEDIA RULES (PDF EXPORT OVERRIDES)
+   ═══════════════════════════════════════════════════════ */
+#print-media-container {
+  display: none;
+}
+
+@media print {
+  /* Override CSS variables for high-quality printing */
+  :root, body, #print-media-container {
+    --text-primary: #1c1c1e !important;
+    --text-secondary: #515154 !important;
+    --text-muted: #8e8e93 !important;
+    --border: #e2e8f0 !important;
+    --border-hover: #cbd5e1 !important;
+    --bg-raised: #f8fafc !important;
+    --bg-hover: #f1f5f9 !important;
+    --bg-input: #ffffff !important;
+    --accent-teal: #0078d4 !important; /* Consistent blue theme for printing */
+  }
+
+  /* Hide all screen components */
+  body > *:not(#print-media-container) {
+    display: none !important;
+  }
+
+  /* Display the print container */
+  #print-media-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: var(--text-primary) !important;
+    font-family: Inter, system-ui, -apple-system, sans-serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
+  /* Cover Page Styling */
+  .print-cover-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .print-cover-title {
+    font-size: 32pt;
+    font-weight: 800;
+    color: var(--accent-teal);
+    margin-bottom: 12pt;
+  }
+
+  .print-cover-subtitle {
+    font-size: 14pt;
+    color: var(--text-secondary);
+  }
+
+  .print-cover-date {
+    margin-top: 24pt;
+    font-size: 10pt;
+    color: var(--text-muted);
+  }
+
+  /* Page Sections */
+  .print-page-section {
+    page-break-before: always;
+    break-before: page;
+    padding-top: 15mm;
+  }
+
+  .print-page-title {
+    font-size: 20pt;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 12pt;
+    border-bottom: 2px solid var(--accent-teal);
+    padding-bottom: 6pt;
+    color: var(--text-primary);
+  }
+
+  /* Re-use exact spacing, fonts and layouts from the editor stylesheet */
+  .print-page-content {
+    font-size: 11pt !important;
+  }
+
+  /* Page breaks inside tables, blocks, and images */
+  .print-page-content table,
+  .print-page-content pre,
+  .print-page-content blockquote,
+  .print-page-content img,
+  .print-page-content figure {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+

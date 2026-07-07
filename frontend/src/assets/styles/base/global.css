@@ -1,0 +1,490 @@
+/* ═══════════════════════════════════════════════════════
+   GLOBAL STYLES & RESETS
+   ═══════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Subtle, elegant scrollbar — reused globally */
+.scroll-thin::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 99px;
+  transition: background 0.2s ease;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHARED SECTION LABEL & HEADING
+   ═══════════════════════════════════════════════════════ */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.label-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.page-heading {
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.25;
+}
+
+.page-subheading {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  margin-bottom: 0;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════
+   EMPTY STATES
+   ═══════════════════════════════════════════════════════ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  font-size: 2.2rem;
+  margin-bottom: 1.15rem;
+  opacity: 0.45;
+}
+
+.empty-state p {
+  font-size: 0.85rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SKELETON LOADERS — Smooth, high-fidelity shimmering & layout placeholders
+   ═══════════════════════════════════════════════════════ */
+.skeleton-loader,
+.sp-heatmap-skeleton-loader,
+.sp-stat-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-raised);
+  pointer-events: none !important;
+  user-select: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  cursor: default !important;
+  transition: none !important;
+}
+
+.skeleton-loader *,
+.sp-heatmap-skeleton-loader *,
+.sp-stat-skeleton * {
+  pointer-events: none !important;
+}
+
+.notebook-card.skeleton-loader:hover,
+.note-card.skeleton-loader:hover,
+.note-card-grid.skeleton-loader:hover,
+.task-item.skeleton-loader:hover {
+  border-color: var(--border) !important;
+}
+
+.skeleton-loader::after,
+.sp-heatmap-skeleton-loader::after,
+.sp-stat-skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--border-hover) 35%, transparent) 50%,
+    transparent 100%
+  );
+  animation: shimmer-anim 1.6s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer-anim {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Note Card Grid Skeleton (NotesPage) */
+.note-grid-card-skeleton.skeleton-loader {
+  height: 318px !important;
+  border-radius: 18px;
+  border: 1.25px solid var(--border);
+  box-sizing: border-box;
+  background: 
+    /* Category title text (in outer header) */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Tag 1 placeholder */
+    linear-gradient(var(--bg-input) 100%, transparent),
+    /* Tag 2 placeholder */
+    linear-gradient(var(--bg-input) 100%, transparent),
+    /* Subheading placeholder */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Body line 1 */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Body line 2 */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Date placeholder (footer) */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Inner card background */
+    linear-gradient(var(--bg-surface) 100%, transparent),
+    /* Outer card background */
+    linear-gradient(color-mix(in srgb, var(--border) 10%, var(--bg-surface)) 100%, transparent) !important;
+  background-repeat: no-repeat !important;
+  background-size: 
+    40% 12px,  /* category */
+    50px 18px, /* tag 1 */
+    50px 18px, /* tag 2 */
+    60% 14px,  /* subheading */
+    85% 10px,  /* body 1 */
+    70% 10px,  /* body 2 */
+    30% 10px,  /* date */
+    calc(100% - 0.9rem) calc(100% - 2.85rem), /* inner card */
+    100% 100% !important;
+  background-position: 
+    0.7rem 0.65rem,
+    1.45rem 3.4rem,
+    5.2rem 3.4rem,
+    1.45rem 5.4rem,
+    1.45rem 7.0rem,
+    1.45rem 8.2rem,
+    1.45rem calc(100% - 1.85rem),
+    0.45rem 2.4rem,
+    0 0 !important;
+}
+
+/* Notebook Card Skeleton (NotebooksPage) */
+.notebook-card.skeleton-loader {
+  height: 135px !important;
+  border-top: 3.5px solid var(--border-hover) !important;
+  background: 
+    /* Folder icon placeholder */
+    linear-gradient(var(--bg-input) 100%, transparent),
+    /* Notebook title placeholder */
+    linear-gradient(var(--border-hover) 100%, transparent),
+    /* Page count label placeholder */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Card background */
+    linear-gradient(var(--bg-surface) 100%, transparent) !important;
+  background-repeat: no-repeat !important;
+  background-size: 
+    30px 30px, /* folder icon */
+    65% 16px,  /* title */
+    35% 10px,  /* page count */
+    100% 100% !important;
+  background-position: 
+    1.1rem 1.2rem,
+    1.1rem 3.8rem,
+    1.1rem 5.6rem,
+    0 0 !important;
+}
+
+/* Compact Note Card Skeleton (Dashboard) */
+.note-card.skeleton-loader {
+  height: 92px !important;
+  padding: 0.35rem !important;
+  box-sizing: border-box;
+  background: 
+    /* Outer Title */
+    linear-gradient(var(--border-hover) 100%, transparent),
+    /* Inner card subheading */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Inner card preview line */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Inner card bg */
+    linear-gradient(var(--bg-surface) 100%, transparent),
+    /* Outer card bg */
+    linear-gradient(color-mix(in srgb, var(--border) 10%, var(--bg-surface)) 100%, transparent) !important;
+  background-repeat: no-repeat !important;
+  background-size: 
+    40% 10px,  /* outer title */
+    55% 10px,  /* inner subheading */
+    75% 8px,   /* inner preview line */
+    calc(100% - 0.7rem) calc(100% - 1.6rem), /* inner card bg */
+    100% 100% !important;
+  background-position: 
+    0.55rem 0.45rem,
+    0.75rem 2.0rem,
+    0.75rem 3.1rem,
+    0.35rem 1.25rem,
+    0 0 !important;
+}
+
+/* Task Item Skeleton (Dashboard/TasksPage) */
+.task-item.skeleton-loader {
+  border-left: 3.5px solid var(--border-hover) !important;
+  background: 
+    /* Checkbox circle placeholder */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Task title placeholder */
+    linear-gradient(var(--border) 100%, transparent),
+    /* Task meta tag placeholder */
+    linear-gradient(var(--bg-input) 100%, transparent),
+    /* Main card background */
+    linear-gradient(var(--bg-surface) 100%, transparent) !important;
+  background-repeat: no-repeat !important;
+  background-size: 
+    16px 16px,  /* checkbox */
+    45% 12px,   /* task title */
+    70px 14px,  /* tag */
+    100% 100% !important;
+  background-position: 
+    1rem calc(50% - 8px),
+    2.5rem calc(50% - 6px),
+    calc(100% - 5.5rem) calc(50% - 7px),
+    0 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL SMOOTH TRANSITIONS & INTERACTIVE RESPONSIVENESS
+   ═══════════════════════════════════════════════════════ */
+.btn, .sidebar-link, .notebook-card, .mini-date-cell, .stat-card, .note-card {
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL SAVING PULSE INDICATOR
+   ═══════════════════════════════════════════════════════ */
+.saving-spinner-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-teal);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+}
+
+.saving-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-teal);
+  border-radius: 50%;
+  animation: pulseAnim 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(0.65); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.65); opacity: 0.5; }
+}
+
+.save-success {
+  color: var(--accent-teal);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* ── Floating Batch Actions Bar ─────────────────────── */
+.batch-bar-container {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  animation: batch-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes batch-slide-up {
+  from { transform: translate(-50%, 100px); opacity: 0; }
+  to   { transform: translate(-50%, 0);     opacity: 1; }
+}
+
+.batch-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: var(--bg-surface-elevated, var(--bg-surface));
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1.5rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.batch-count {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.batch-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.batch-cancel {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s;
+  padding: 0.5rem;
+}
+
+.batch-cancel:hover {
+  color: var(--text-primary);
+}
+
+/* Responsive adjustments for batch actions bar */
+@media (max-width: 768px) {
+  .batch-bar {
+    padding: 0.75rem 1.25rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .batch-bar {
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: stretch;
+    padding: 1rem;
+    text-align: center;
+  }
+  .batch-count {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  .batch-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  .batch-actions button {
+    flex: 1 1 calc(50% - 0.25rem);
+    justify-content: center;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+  .batch-actions button:last-child:nth-child(odd) {
+    flex: 1 1 100%;
+  }
+  .batch-cancel {
+    align-self: center;
+    font-size: 0.8rem;
+    padding: 0.25rem;
+  }
+}
+
+/* Responsive overrides for page content padding and app sidebar backdrop */
+.app-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .app-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 450;
+    animation: fade-in-backdrop 0.22s ease-out;
+  }
+}
+
+@keyframes fade-in-backdrop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .page-content {
+    padding: 1rem 1rem !important;
+  }
+}

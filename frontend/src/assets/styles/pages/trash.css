@@ -1,0 +1,308 @@
+.trash-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1.25rem;
+}
+
+.trash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.trash-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbars for trash content */
+.trash-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.trash-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.trash-content::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 99px;
+  border: 1px solid transparent;
+  transition: background 0.2s ease;
+}
+
+.trash-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.trash-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Note Cards in Trash (Uses Note Card nested double border style!) */
+.trash-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.trash-note-card {
+  background: color-mix(in srgb, var(--card-accent) 40%, var(--bg-surface));
+  border: 1.25px solid color-mix(in srgb, var(--card-accent) 70%, var(--border));
+  border-radius: var(--radius-md);
+  padding: 0.3rem;
+  box-sizing: border-box;
+}
+
+.trash-note-card-inner {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 1rem;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.trash-note-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trash-note-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tasks list in Trash (Uses Task Card left border accent style!) */
+.trash-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trash-task-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%), var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left: 3.5px solid var(--card-accent);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.trash-task-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.trash-task-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.trash-task-priority {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Actions */
+.trash-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-end;
+}
+
+.trash-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.trash-action-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.trash-action-btn.restore:hover {
+  color: var(--accent-teal);
+  border-color: rgba(14, 169, 138, 0.3);
+  background: rgba(14, 169, 138, 0.05);
+}
+
+.trash-action-btn.delete:hover {
+  color: var(--accent-coral);
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+/* ── Auto-delete Info Banner ────────────────────────── */
+.trash-info-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--accent-amber-soft, rgba(245, 158, 11, 0.08));
+  border: 1px solid var(--accent-amber-border, rgba(245, 158, 11, 0.2));
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-bottom: 0.5rem;
+}
+
+.trash-info-banner i {
+  color: var(--accent-amber);
+  font-size: 1rem;
+}
+
+/* ── Custom Select All Checkbox row ─────────────────── */
+.trash-toolbar-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.trash-select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+/* ── Custom checkbox styling ────────────────────────── */
+.trash-checkbox {
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1px solid var(--border-hover);
+  border-radius: 4px;
+  background: var(--bg-input);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.trash-checkbox:hover {
+  border-color: var(--accent-teal);
+}
+
+.trash-checkbox:checked {
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+}
+
+.trash-checkbox:checked::after {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 0.62rem;
+  color: #fff;
+}
+
+.task-item.selected {
+  border-color: var(--accent-teal) !important;
+  background: var(--accent-teal-soft, rgba(14, 169, 138, 0.04)) !important;
+}
+
+.note-card-grid.selected {
+  border-color: var(--accent-teal) !important;
+  box-shadow: 0 4px 16px rgba(14, 169, 138, 0.08);
+}
+
+/* ── Responsive Trash Bin Page overrides ── */
+@media (max-width: 640px) {
+  .trash-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1rem !important;
+  }
+  .trash-header button:not(.empty-trash-btn) {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .empty-trash-text {
+    display: none !important;
+  }
+  .empty-trash-btn {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+  .empty-trash-btn i {
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* ── Selection active conditional visibility (global) ── */
+.trash-checkbox-container {
+  display: none !important;
+}
+.selection-active .trash-checkbox-container {
+  display: flex !important;
+}
+.trash-page .task-select-all-btn-wrapper {
+  display: none !important;
+}
+.selection-active .trash-page .task-select-all-btn-wrapper {
+  display: flex !important;
+}

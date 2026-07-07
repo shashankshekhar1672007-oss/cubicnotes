@@ -1,0 +1,209 @@
+/* ═══════════════════════════════════════════════════════
+   AUTH PAGES (Login / Register)
+   ═══════════════════════════════════════════════════════ */
+.auth-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.auth-card {
+  width: 400px;
+  max-width: 92vw;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-teal);
+  font-size: 1.3rem;
+}
+
+.auth-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.auth-subheading {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+.auth-subheading strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.auth-error {
+  background: rgba(232, 85, 85, 0.1);
+  color: var(--accent-coral);
+  font-size: 0.8rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.auth-success {
+  background: rgba(77, 208, 200, 0.1);
+  color: var(--accent-teal);
+  font-size: 0.8rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+}
+
+.auth-switch span {
+  color: var(--accent-teal);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════
+   OTP VERIFICATION INPUTS
+   ═══════════════════════════════════════════════════════ */
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 1.75rem 0;
+}
+
+.otp-box {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  caret-color: var(--accent-teal);
+}
+
+.otp-box:focus {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 3px rgba(77, 208, 200, 0.15);
+}
+
+.otp-box::placeholder {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+/* ── Resend OTP ── */
+.otp-resend {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.82rem;
+}
+
+.otp-resend-timer {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.otp-resend-link {
+  color: var(--accent-teal);
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.otp-resend-link:hover {
+  opacity: 0.8;
+}
+
+/* ── Gmail hint banner on OTP screen ── */
+.otp-gmail-hint {
+  border: 1px solid color-mix(in srgb, #4285f4 20%, var(--border));
+  background: color-mix(in srgb, #4285f4 6%, var(--bg-surface));
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.otp-gmail-hint-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.otp-gmail-hint-text i {
+  color: #4285f4;
+  margin-top: 2px;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.otp-gmail-google-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.otp-gmail-hint-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.otp-gmail-hint-divider::before,
+.otp-gmail-hint-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.otp-gmail-continue-anyway {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  transition: color 0.15s;
+}
+
+.otp-gmail-continue-anyway:hover {
+  color: var(--text-secondary);
+}

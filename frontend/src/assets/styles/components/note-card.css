@@ -1,0 +1,506 @@
+/* ═══════════════════════════════════════════════════════
+   NOTE CARD — COMPACT NESTED VARIANT
+   ═══════════════════════════════════════════════════════ */
+.note-card {
+  background: color-mix(in srgb, var(--card-accent) 40%, var(--bg-surface));
+  border: 1.25px solid color-mix(in srgb, var(--card-accent) 70%, var(--border));
+  border-radius: var(--radius-md);
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+
+.note-card:hover {
+  transform: translateY(-2.5px);
+  box-shadow: 
+    0 10px 24px -10px color-mix(in srgb, var(--card-accent) 20%, transparent),
+    0 1px 3px rgba(0, 0, 0, 0.02);
+  border-color: color-mix(in srgb, var(--card-accent) 90%, var(--border));
+}
+
+.note-card:active {
+  transform: scale(0.985) translateY(-1px);
+  transition: transform 0.08s ease;
+}
+
+/* Outer Header */
+.note-card-outer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0.1rem 0.2rem;
+}
+
+.note-card-outer-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-primary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.note-card-outer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.note-card-outer-action-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.68rem;
+  transition: background 0.12s, opacity 0.12s;
+  opacity: 0.6;
+}
+
+.note-card-outer-action-btn:hover {
+  background: var(--bg-hover);
+  opacity: 1;
+}
+
+.note-card-outer-action-btn.pinned {
+  opacity: 1;
+  color: var(--accent-teal);
+}
+
+.note-card-outer-action-btn.delete:hover {
+  color: var(--accent-coral);
+}
+
+/* Inner Card Wrapper */
+.note-card-inner {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Tags in Inner Card */
+.note-card-inner-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.note-card-inner-tag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--card-accent) 7%, var(--bg-input));
+  color: color-mix(in srgb, var(--card-accent) 70%, var(--text-secondary));
+  border: 1px solid color-mix(in srgb, var(--card-accent) 12%, var(--border));
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Subheading */
+.note-card-inner-subheading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Preview */
+.note-card-inner-preview {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Inner Card Footer */
+.note-card-inner-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.note-card-inner-date {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.note-card-inner-pinned {
+  font-size: 0.65rem;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-muted));
+}
+
+/* ═══════════════════════════════════════════════════════
+   NOTE CARD — nested grid variant (NoteCard.jsx)
+   ═══════════════════════════════════════════════════════ */
+.note-card-grid {
+  background: color-mix(in srgb, var(--card-accent) 40%, var(--bg-surface));
+  border: 1.25px solid color-mix(in srgb, var(--card-accent) 70%, var(--border));
+  border-radius: 18px;
+  padding: 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+  height: 318px;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  min-width: 150px;
+}
+
+.note-card-grid:hover {
+  transform: translateY(-3.5px);
+  box-shadow: 
+    0 12px 28px -10px color-mix(in srgb, var(--card-accent) 20%, transparent),
+    0 1px 4px rgba(0, 0, 0, 0.02);
+  border-color: color-mix(in srgb, var(--card-accent) 90%, var(--border));
+}
+
+.note-card-grid:active {
+  transform: scale(0.985) translateY(-1.5px);
+  transition: transform 0.08s ease;
+}
+
+/* Outer Header */
+.ncg-outer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.15rem 0.25rem;
+}
+
+.ncg-category {
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-primary));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.ncg-outer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  position: relative;
+}
+
+.ncg-outer-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.72rem;
+  transition: background 0.15s, opacity 0.15s;
+  opacity: 0.65;
+}
+
+.ncg-outer-btn:hover {
+  background: var(--bg-hover);
+  opacity: 1;
+}
+
+/* Dropdown Menu */
+.ncg-menu-container {
+  position: relative;
+}
+
+.ncg-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 100;
+  margin-top: 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  padding: 4px 0;
+  min-width: 130px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ncg-dropdown-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.ncg-dropdown-item:hover {
+  background: var(--bg-hover);
+}
+
+.ncg-dropdown-item i {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  width: 14px;
+  text-align: center;
+}
+
+.ncg-dropdown-item.danger {
+  color: var(--accent-coral);
+}
+
+.ncg-dropdown-item.danger i {
+  color: var(--accent-coral);
+}
+
+/* Inner Card Wrapper */
+.note-card-grid-inner {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  min-height: 0;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease;
+}
+
+.note-card-grid-inner:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+/* Tags in Inner Card */
+.ncg-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ncg-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--card-accent) 7%, var(--bg-input));
+  color: color-mix(in srgb, var(--card-accent) 70%, var(--text-secondary));
+  border: 1px solid color-mix(in srgb, var(--card-accent) 12%, var(--border));
+  display: inline-flex;
+  align-items: center;
+}
+
+.ncg-tag-more {
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  border-color: var(--border);
+  font-style: normal;
+  cursor: default;
+}
+
+/* Title */
+.ncg-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Subheading */
+.ncg-subheading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 1px;
+  margin-bottom: 2px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Preview Content Container */
+.ncg-preview {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  word-break: break-word;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+/* Elegant thin scrollbar for preview */
+.ncg-preview::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ncg-preview::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ncg-preview::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 4px;
+}
+
+.ncg-preview p {
+  margin: 0 0 0.5rem 0;
+}
+
+.ncg-preview p:last-child {
+  margin-bottom: 0;
+}
+
+.ncg-preview ul, .ncg-preview ol {
+  margin: 0 0 0.5rem 0;
+  padding-left: 1.1rem;
+}
+
+.ncg-preview li {
+  margin-bottom: 2px;
+}
+
+.ncg-preview strong {
+  color: var(--text-primary);
+}
+
+.ncg-preview.empty {
+  color: var(--text-muted);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner Card Footer */
+.ncg-inner-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.ncg-date {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.ncg-pinned-indicator {
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--card-accent) 80%, var(--text-muted));
+}
+
+/* ── Note card selection style rules (global) ── */
+.note-card-grid.selected {
+  border-color: var(--accent-teal) !important;
+  box-shadow: 0 0 14px rgba(14, 169, 138, 0.25), 0 4px 18px rgba(14, 169, 138, 0.15) !important;
+}
+
+.trash-checkbox-container {
+  display: none !important;
+}
+.selection-active .trash-checkbox-container {
+  display: flex !important;
+}
+
+.trash-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1px solid var(--border-hover);
+  border-radius: 4px;
+  background: var(--bg-input);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.trash-checkbox:hover {
+  border-color: var(--accent-teal);
+}
+
+.trash-checkbox:checked {
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+}
+
+.trash-checkbox:checked::after {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 0.62rem;
+  color: #fff;
+}

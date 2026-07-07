@@ -21,11 +21,19 @@ const TaskItem = ({
   const isLongPress = useRef(false);
   const ignoreNextClick = useRef(false);
 
+  const touchStartPos = useRef({ x: 0, y: 0 });
+
   const handleTouchStart = (e) => {
+    const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+    touchStartPos.current = { x: clientX, y: clientY };
     isLongPress.current = false;
     const timer = setTimeout(() => {
       isLongPress.current = true;
       ignoreNextClick.current = true;
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
       onSelect(task._id);
     }, 600);
     setPressTimer(timer);
@@ -43,8 +51,14 @@ const TaskItem = ({
     }
   };
 
-  const handleCancelPress = () => {
-    if (pressTimer) {
+  const handleTouchMove = (e) => {
+    if (!pressTimer) return;
+    const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - touchStartPos.current.x;
+    const dy = clientY - touchStartPos.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > 15) {
       clearTimeout(pressTimer);
       setPressTimer(null);
     }
@@ -162,10 +176,10 @@ const TaskItem = ({
       style={{ display: "flex", alignItems: "center", gap: "0.85rem", width: "100%" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      onTouchMove={handleCancelPress}
+      onTouchMove={handleTouchMove}
       onMouseDown={handleTouchStart}
       onMouseUp={handleTouchEnd}
-      onMouseMove={handleCancelPress}
+      onMouseMove={handleTouchMove}
       onContextMenu={(e) => e.preventDefault()}
       onClick={(e) => {
         if (ignoreNextClick.current) {

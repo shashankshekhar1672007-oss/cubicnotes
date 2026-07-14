@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { 
@@ -13,6 +14,7 @@ import ReminderModal from "../components/Reminders/ReminderModal";
 import ConfirmationModal from "../components/UI/ConfirmationModal";
 import Button from "../components/UI/Button";
 import { useGhostGuard } from "../hooks/useGhostGuard";
+import { useAuth } from "../hooks/useAuth";
 import { GHOST_REMINDERS } from "../data/ghostDemoData";
 import "../assets/styles/pages/reminders.css";
 
@@ -49,6 +51,22 @@ const RemindersPage = () => {
   const queryClient = useQueryClient();
   const workspaceBodyRef = useRef(null);
   const { guardAction, isGhost } = useGhostGuard();
+  const { updateUser } = useAuth();
+  const location = useLocation();
+
+  // Handle Google Calendar OAuth redirect callback
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("calendar_connected") === "true") {
+      toast.success("Google Calendar connected successfully!");
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // Refresh user state so googleCalendarConnected is immediately reflected
+      api.get("/auth/me").then(({ data }) => updateUser(data)).catch(() => {});
+    } else if (params.get("calendar_error")) {
+      toast.error("Failed to connect Google Calendar.");
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.search, updateUser]);
 
   const { data: serverReminders = [], isLoading: loading } = useQuery({
     queryKey: ["reminders"],

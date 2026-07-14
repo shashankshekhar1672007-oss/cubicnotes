@@ -64,14 +64,33 @@ const createReminder = async (req, res, next) => {
     });
 
     if (reminder.syncToGoogleCalendar && req.user.googleCalendarConnected) {
+      console.log(`[Reminder] Calendar sync requested — fetching tokens for user ${req.user._id}`);
       const userWithTokens = await User.findById(req.user._id).select("+googleCalendarTokens");
       if (userWithTokens && userWithTokens.googleCalendarTokens) {
+        console.log("[Reminder] Tokens found — creating calendar event...");
         const { createCalendarEvent } = require("../utils/googleCalendar");
         const eventId = await createCalendarEvent(userWithTokens, reminder);
         if (eventId) {
           reminder.googleCalendarEventId = eventId;
           await reminder.save();
+          console.log(`[Reminder] Calendar event linked: ${eventId}`);
+        } else {
+          console.warn("[Reminder] createCalendarEvent returned null — event not created");
         }
+      } else {
+        console.warn("[Reminder] No calendar tokens found for user despite googleCalendarConnected=true");
+      }
+    } else {
+      if (reminder.syncToGoogleCalendar) {
+        console.log("[Reminder] syncToGoogleCalendar=true but googleCalendarConnected=false on req.user");
+      }
+    }
+
+    // Check if the user got disconnected during the Google Calendar API call
+    if (req.user.googleCalendarConnected) {
+      const currentUser = await User.findById(req.user._id).select("googleCalendarConnected");
+      if (currentUser && !currentUser.googleCalendarConnected) {
+        res.setHeader("x-calendar-disconnected", "true");
       }
     }
 
@@ -125,6 +144,14 @@ const updateReminder = async (req, res, next) => {
       }
     }
 
+    // Check if the user got disconnected during the Google Calendar API call
+    if (req.user.googleCalendarConnected) {
+      const currentUser = await User.findById(req.user._id).select("googleCalendarConnected");
+      if (currentUser && !currentUser.googleCalendarConnected) {
+        res.setHeader("x-calendar-disconnected", "true");
+      }
+    }
+
     res.json(reminder);
   } catch (err) { next(err); }
 };
@@ -137,12 +164,27 @@ const deleteReminder = async (req, res, next) => {
     const reminder = await Reminder.findOne({ _id: req.params.id, user: req.user._id });
     if (!reminder) return res.status(404).json({ message: "Reminder not found" });
 
+    // Check if the user got disconnected during the Google Calendar API call
+    if (req.user.googleCalendarConnected) {
+      const currentUser = await User.findById(req.user._id).select("googleCalendarConnected");
+      if (currentUser && !currentUser.googleCalendarConnected) {
+        res.setHeader("x-calendar-disconnected", "true");
+      }
+    }
+
     if (permanent === "true") {
       if (reminder.googleCalendarEventId && req.user.googleCalendarConnected) {
         const userWithTokens = await User.findById(req.user._id).select("+googleCalendarTokens");
         if (userWithTokens && userWithTokens.googleCalendarTokens) {
           const { deleteCalendarEvent } = require("../utils/googleCalendar");
           await deleteCalendarEvent(userWithTokens, reminder.googleCalendarEventId);
+        }
+      }
+      // Check if user got disconnected during deleteCalendarEvent call
+      if (req.user.googleCalendarConnected) {
+        const currentUser = await User.findById(req.user._id).select("googleCalendarConnected");
+        if (currentUser && !currentUser.googleCalendarConnected) {
+          res.setHeader("x-calendar-disconnected", "true");
         }
       }
       await Reminder.deleteOne({ _id: req.params.id });
@@ -162,6 +204,15 @@ const deleteReminder = async (req, res, next) => {
     }
 
     await reminder.save();
+
+    // Check again in case deletion triggered invalid_grant
+    if (req.user.googleCalendarConnected) {
+      const currentUser = await User.findById(req.user._id).select("googleCalendarConnected");
+      if (currentUser && !currentUser.googleCalendarConnected) {
+        res.setHeader("x-calendar-disconnected", "true");
+      }
+    }
+
     res.json({ message: "Reminder trashed" });
   } catch (err) { next(err); }
 };

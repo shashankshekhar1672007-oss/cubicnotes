@@ -250,33 +250,70 @@ const updateProfile = async (req, res, next) => {
 const getCalendarConnectUrl = async (req, res, next) => {
   try {
     const { getCalendarAuthUrl } = require("../utils/googleCalendar");
-    const url = getCalendarAuthUrl(req.user._id.toString());
+    const from = req.query.from || "settings";
+    const url = getCalendarAuthUrl(req.user._id.toString(), from);
     res.json({ url });
   } catch (err) { next(err); }
 };
 
 const handleCalendarCallback = async (req, res, next) => {
+  const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
   try {
-    const { code, state: userId } = req.query;
-    if (!code || !userId) {
-      return res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/settings?calendar_error=missing_params`);
+    const { code, state: rawState } = req.query;
+    if (!code || !rawState) {
+      console.error("[CalendarCallback] Missing code or state in query params:", req.query);
+      return res.redirect(`${clientUrl}/settings?calendar_error=missing_params`);
+    }
+
+    // Parse state — supports both legacy string (userId) and new JSON format
+    let userId, from = "settings";
+    try {
+      const parsed = JSON.parse(rawState);
+      userId = parsed.userId;
+      from = parsed.from || "settings";
+    } catch {
+      // Legacy format: state is just the userId string
+      userId = rawState;
+    }
+
+    if (!userId) {
+      console.error("[CalendarCallback] Could not extract userId from state:", rawState);
+      return res.redirect(`${clientUrl}/settings?calendar_error=missing_params`);
     }
 
     const { exchangeCodeForTokens } = require("../utils/googleCalendar");
-    const tokens = await exchangeCodeForTokens(code);
+    let tokens;
+    try {
+      tokens = await exchangeCodeForTokens(code);
+    } catch (tokenErr) {
+      console.error("[CalendarCallback] Token exchange failed:", tokenErr.message);
+      return res.redirect(`${clientUrl}/settings?calendar_error=token_exchange_failed`);
+    }
+
+    if (!tokens || (!tokens.access_token && !tokens.refresh_token)) {
+      console.error("[CalendarCallback] No usable tokens received from Google");
+      return res.redirect(`${clientUrl}/settings?calendar_error=no_tokens`);
+    }
 
     const { encrypt } = require("../utils/cryptoHelper");
     const encryptedTokens = encrypt(JSON.stringify(tokens));
 
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       googleCalendarTokens: encryptedTokens,
       googleCalendarConnected: true,
-    });
+    }, { new: true });
 
-    res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/settings?calendar_connected=true`);
+    if (!updatedUser) {
+      console.error("[CalendarCallback] User not found for ID:", userId);
+      return res.redirect(`${clientUrl}/settings?calendar_error=user_not_found`);
+    }
+
+    // Redirect back to the page that initiated the connection
+    const redirectPath = from === "reminders" ? "/reminders" : "/settings";
+    res.redirect(`${clientUrl}${redirectPath}?calendar_connected=true`);
   } catch (err) {
     console.error("Google Calendar OAuth callback error:", err);
-    res.redirect(`${process.env.CLIENT_URL || "http://localhost:5173"}/settings?calendar_error=auth_failed`);
+    res.redirect(`${clientUrl}/settings?calendar_error=auth_failed`);
   }
 };
 

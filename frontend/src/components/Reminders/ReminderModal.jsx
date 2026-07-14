@@ -53,29 +53,10 @@ const ReminderModal = ({ onClose, onSave, onDelete, linkedNote = null, initial =
   const handleConnectCalendar = async () => {
     setConnecting(true);
     try {
-      const { data } = await api.get("/auth/google/calendar/connect");
+      const { data } = await api.get("/auth/google/calendar/connect?from=reminders");
       if (data.url) {
-        // Open Google Consent Screen in a new tab so user doesn't lose form state
-        const connectWindow = window.open(data.url, "_blank");
-        
-        // Listen for connection status changes
-        const checkConnection = setInterval(async () => {
-          if (connectWindow.closed) {
-            clearInterval(checkConnection);
-            // Refresh user session state
-            try {
-              const { data: userData } = await api.get("/auth/me");
-              updateUser(userData);
-              if (userData.googleCalendarConnected) {
-                toast.success("Google Calendar connected successfully!");
-                setSyncToGoogleCalendar(true);
-              }
-            } catch (err) {
-              console.error(err);
-            }
-            setConnecting(false);
-          }
-        }, 1000);
+        // Use full-page redirect (works reliably on both web and mobile)
+        window.location.href = data.url;
       } else {
         toast.error("Could not fetch connection URL.");
         setConnecting(false);

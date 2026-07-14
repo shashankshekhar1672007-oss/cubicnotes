@@ -16,8 +16,16 @@ api.interceptors.request.use((config) => {
    Ghost users (no token) never trigger a redirect — the frontend ghost gate
    handles auth prompts instead. */
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response.headers?.["x-calendar-disconnected"] === "true") {
+      window.dispatchEvent(new CustomEvent("calendar-disconnected"));
+    }
+    return response;
+  },
   (error) => {
+    if (error.response?.headers?.["x-calendar-disconnected"] === "true") {
+      window.dispatchEvent(new CustomEvent("calendar-disconnected"));
+    }
     if (error.response?.status === 401) {
       const hadToken = localStorage.getItem("cubicnotes_token");
       localStorage.removeItem("cubicnotes_token");

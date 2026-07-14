@@ -94,6 +94,14 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+    const handleDisconnected = () => {
+      updateUser({ googleCalendarConnected: false });
+    };
+    window.addEventListener("calendar-disconnected", handleDisconnected);
+    return () => window.removeEventListener("calendar-disconnected", handleDisconnected);
+  }, [updateUser]);
+
   return (
     <AuthContext.Provider value={{ user, loading, login, register, verifyOtp, resendOtp, googleLogin, logout, updateUser }}>
       {children}
